@@ -1,26 +1,38 @@
-
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Scanner;
 import java.util.Collections;
-
+//Exceptions
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Duplicate {
 	private static ArrayList<File> filedata = new ArrayList<File>();
 	private static HashSet<String> namelist = new HashSet<String>();
 
 	public static void main(String args[]) throws IOException {
+		Process child;
+		
+		System.out.println("Enter The Path to find Duplicates..:");
+		Scanner sc=new Scanner(System.in);
+		String Path=sc.nextLine();
+		System.out.println("Path: "+Path); 
+		try{
+		child=Runtime.getRuntime().exec("cmd /c dir "+Path+" /s /b >files.txt");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		FileInputStream fin;
 		BufferedReader br = null;
 		Ui gui = new Ui();
@@ -45,7 +57,7 @@ public class Duplicate {
 					if (a.isFile())
 						filedata.add(a);
 					namelist.add(a.getName());
-//System.out.println(String.format("%-100s Size: %s",a.getName(),unit(a.length())));
+System.out.println(String.format("%-100s Size: %s",a.getName(),unit(a.length())));
 					line = br.readLine();
 				}
 				if (filedata.size() != 0) {
@@ -89,7 +101,6 @@ public class Duplicate {
 			}
 
 		}
-
 	}
 
 	public static String unit(long length) {
@@ -156,7 +167,7 @@ class Ui extends JFrame {
 		add(mainpane);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(720, 1080);
-		setVisible(false);
+		setVisible(true);
 	}
 
 	public JPanel getMain() {
